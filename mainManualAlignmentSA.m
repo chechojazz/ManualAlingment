@@ -162,6 +162,8 @@ addpath('/Users/chechojazz/Dropbox/PHD/Libraries/MIDI_matlab_jar')
         end
     end
     
+    s2p=create_s2p_FromAll_x_y(all_x,all_y,nmat1,nmat2);%create score to performance corr
+    
     if new==1
         mkdir([pwd,'/dataOut/annotations/',songName]);
         pathAndFileName=[pwd,'/dataOut/annotations/',songName,'/',user,'_',songName,'_NoteCorrManual.mat'];
@@ -170,7 +172,7 @@ addpath('/Users/chechojazz/Dropbox/PHD/Libraries/MIDI_matlab_jar')
         pathAndFileName=[pwd,'/dataOut/annotations/',songName,'/',user,'_',songName,'_NoteCorrManual.mat'];
     end
     
-    saveFileAs(pathAndFileName,all_x,all_y,nmat1,nmat2);
+    saveFileAs(pathAndFileName,all_x,all_y,nmat1,nmat2,s2p);
     
     close (pnrll);
     
@@ -221,7 +223,7 @@ else
     b(2)=nmat1(nmat1_idx,4);
 end
 end
-function saveFileAs(pathAndFileName,all_x,all_y,nmat1,nmat2)
+function saveFileAs(pathAndFileName,all_x,all_y,nmat1,nmat2,sp2)
 
 fprintf(['Saving data as: ',pathAndFileName,'\n'])
 %%%%%% the conversion from all_x and all_y may not be working correcty!
@@ -248,7 +250,7 @@ fprintf(['Saving data as: ',pathAndFileName,'\n'])
 %                     end
 %                 end
 %                 %%%%%%%%%%%%%%%%%%%%%%%%%
-save(pathAndFileName,'nmat1','nmat2','all_x','all_y')
+save(pathAndFileName,'nmat1','nmat2','all_x','all_y','sp2')
 fprintf('done!\n')
 end
 
