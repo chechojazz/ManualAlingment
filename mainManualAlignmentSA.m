@@ -85,6 +85,11 @@ addpath('/Users/chechojazz/Dropbox/PHD/Libraries/MIDI_matlab_jar')
             all_y=nmat.all_y;
             nmat1=nmat.nmat1;
             nmat2=nmat.nmat2;
+            if isfield(nmat, 's2p');
+                s2p = nmat.s2p;
+            else
+                s2p = create_s2p_FromAll_x_y(all_x,all_y,nmat1,nmat2);
+            end
     end
     %%%%%%%%%%%%%%%
     
@@ -108,7 +113,7 @@ addpath('/Users/chechojazz/Dropbox/PHD/Libraries/MIDI_matlab_jar')
             pnrll=plotAlignment (nmat1,nmat2,all_x,all_y, new);           
             correctTransp=input('\nIs transposition correct? (y:1, n:0=)');
         end
-        save([path_file_s,'/',songName,'.mat'],'nmat1','nmat2','all_x','all_y');
+        save([path_file_s,'/',songName,'.mat'],'nmat1','nmat2','all_x','all_y','s2p');
     end
     fprintf('\nc: conect notes\nr: erase last \nz: use zoom/move tools \ns: save\nq: to quit')
     
@@ -146,7 +151,7 @@ addpath('/Users/chechojazz/Dropbox/PHD/Libraries/MIDI_matlab_jar')
                     %warn ovewrite data
                     pathAndFileName=[pwd,'/dataOut/annotations/',songName,'/',user,'_',songName,'_NoteCorrManual.mat'];
                 end
-                saveFileAs(pathAndFileName,all_x,all_y,nmat1,nmat2);
+                saveFileAs(pathAndFileName,all_x,all_y,nmat1,nmat2,s2p);
                 fprintf('Press c to continue, r to erase, z to zoom or move, s to save or q to quit')
                 
             case 'z'
@@ -223,7 +228,7 @@ else
     b(2)=nmat1(nmat1_idx,4);
 end
 end
-function saveFileAs(pathAndFileName,all_x,all_y,nmat1,nmat2,sp2)
+function saveFileAs(pathAndFileName,all_x,all_y,nmat1,nmat2,s2p)
 
 fprintf(['Saving data as: ',pathAndFileName,'\n'])
 %%%%%% the conversion from all_x and all_y may not be working correcty!
@@ -250,7 +255,7 @@ fprintf(['Saving data as: ',pathAndFileName,'\n'])
 %                     end
 %                 end
 %                 %%%%%%%%%%%%%%%%%%%%%%%%%
-save(pathAndFileName,'nmat1','nmat2','all_x','all_y','sp2')
+save(pathAndFileName,'nmat1','nmat2','all_x','all_y','s2p')
 fprintf('done!\n')
 end
 
